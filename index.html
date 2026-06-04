@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JG | Jebhoy Gipala - Enterprise Digital Ecosystems</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        jg: {
+                            white: '#FFFFFF',
+                            silver: '#CCCCCC',
+                            silverLight: '#F3F4F6',
+                            gold: '#D4AF37',
+                            goldDark: '#B5952F',
+                            charcoal: '#111215', // Premium dark grey/suit tone
+                            charcoalLight: '#1C1D22',
+                            text: '#222222',
+                            textMuted: '#666666'
+                        }
+                    },
+                    boxShadow: {
+                        'premium': '0 20px 40px -15px rgba(0,0,0,0.3)',
+                        'gold-glow': '0 0 25px rgba(212, 175, 55, 0.15)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #E2E8F0;
+        }
+        
+        /* Premium Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0C0E;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D4AF37;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #B5952F;
+        }
+
+        /* Glassmorphism elements */
+        .glass-panel {
+            background: rgba(28, 29, 34, 0.5);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-panel-light {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Modal Transitions */
+        .modal-overlay {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            transform: scale(0.95) translateY(30px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+
+        /* Input highlight styles */
+        .form-input {
+            width: 100%;
+            padding: 0.85rem 1.25rem;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background-color: rgba(11, 12, 14, 0.6);
+            transition: all 0.3s ease;
+            color: #FFFFFF;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #D4AF37;
+            background-color: rgba(11, 12, 14, 0.9);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.25);
+        }
+
+        /* Ambient glowing circles */
+        .glow-orb {
+            filter: blur(130px);
+            pointer-events: none;
+            opacity: 0.15;
+        }
+
+        /* Geometric Background Line grid */
+        .bg-grid-lines {
+            background-size: 50px 50px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-jg-gold selection:text-jg-charcoal overflow-x-hidden bg-transparent">
+
+    <!-- Steady Fixed Background Layer -->
+    <div class="fixed inset-0 w-full h-full z-[-1] bg-[#0B0C0E]">
+        <!-- Premium Unsplash image set as a truly fixed background so it never scrolls up -->
+        <div class="absolute inset-0 bg-cover bg-center filter brightness-[0.70]" style="background-image: url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=1920');"></div>
+        <!-- Adjusted Overlay layers for gradient text readability - avoiding solid black at bottom -->
+        <div class="absolute inset-0 bg-gradient-to-b from-[#0B0C0E]/70 via-[#0B0C0E]/40 to-[#0B0C0E]/70"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-[#0B0C0E]/80 via-transparent to-[#0B0C0E]/70"></div>
+        <!-- Global grid lines -->
+        <div class="absolute inset-0 bg-grid-lines opacity-100"></div>
+    </div>
+
+    <!-- Ambient background light effects - Added fixed so they stay with the background -->
+    <div class="fixed top-[10%] left-[-10%] w-[500px] h-[500px] bg-jg-gold rounded-full glow-orb z-0"></div>
+    <div class="fixed top-[40%] right-[-10%] w-[600px] h-[600px] bg-jg-gold rounded-full glow-orb z-0"></div>
+    <div class="fixed bottom-[10%] left-[20%] w-[450px] h-[450px] bg-jg-gold rounded-full glow-orb z-0"></div>
+
+    <nav class="fixed w-full bg-jg-charcoal/60 backdrop-blur-sm z-40 border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-24 items-center">
+                <div class="flex-shrink-0 flex items-center gap-4 cursor-pointer">
+                    <!-- Brand Initials Mark -->
+                    <div class="flex items-center justify-center w-12 h-12 rounded border border-jg-gold/30 bg-gradient-to-br from-jg-charcoal to-jg-charcoalLight shadow-lg">
+                        <span class="font-serif text-2xl font-bold tracking-tighter text-white">
+                            J<span class="text-jg-gold">G</span>
+                        </span>
+                    </div>
+                    <div class="flex flex-col border-l border-white/10 pl-4">
+                        <span class="font-black text-sm tracking-[0.25em] text-white uppercase">Jebhoy Gipala</span>
+                        <span class="text-[0.65rem] text-jg-gold uppercase tracking-widest font-semibold">Pragmatic Craftsmanship</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#hero" class="text-xs uppercase tracking-widest text-gray-300 hover:text-jg-gold transition font-bold">Main</a>
+                    <a href="#about" class="text-xs uppercase tracking-widest text-gray-300 hover:text-jg-gold transition font-bold">About</a>
+                    <a href="#portfolio" class="text-xs uppercase tracking-widest text-gray-300 hover:text-jg-gold transition font-bold">Portfolio</a>
+                    <a href="#values" class="text-xs uppercase tracking-widest text-gray-300 hover:text-jg-gold transition font-bold">Values</a>
+                    <a href="#blueprint" class="text-xs uppercase tracking-widest text-gray-300 hover:text-jg-gold transition font-bold">Blueprint</a>
+                    <button class="open-modal-btn bg-gradient-to-r from-jg-gold to-jg-goldDark text-jg-charcoal px-6 py-3.5 rounded text-xs uppercase tracking-widest font-bold hover:brightness-110 active:scale-95 transition shadow-lg shadow-jg-gold/20">
+                        Initiate Connection
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section (Transparent background reveals the steady fixed image) -->
+    <section id="hero" class="relative min-h-screen pt-36 pb-20 flex items-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Content: High level brand pitches for CEOs -->
+                <div class="lg:col-span-7 text-left space-y-8">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel border border-white/10 text-jg-gold text-xs font-bold uppercase tracking-[0.25em]">
+                        <span class="w-2 h-2 rounded-full bg-jg-gold animate-ping"></span>
+                        Architecting Scale
+                    </div>
+                    
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.1]">
+                        Engineering Autonomous System <br/>of the <span class="text-transparent bg-clip-text bg-gradient-to-r from-jg-gold via-yellow-200 to-white">Modern Enterprise</span>
+                    </h1>
+                    
+		    <h1 class="text-xl lg:text-2xl font-medium text-white-600 leading-relaxed max-w-3xl">
+                    Predictive modeling. Behavior-driven architecture. Scalable revenue engines.
+                </h1>
+
+                    <div class="relative py-6 pl-6 border-l-2 border-jg-gold bg-white/[0.02] rounded-r-lg">
+                        <p class="text-base sm:text-lg text-gray-300 leading-relaxed font-light italic">
+                            "I do not just build functional tech, nor do I just build pretty interfaces. I operate with <strong class="font-semibold text-white">pragmatic craftsmanship</strong>—engineering scalable digital ecosystems where high-performance code meets intuitive, high-fidelity design."
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                        <button class="open-modal-btn bg-gradient-to-r from-jg-gold to-jg-goldDark text-jg-charcoal px-8 py-4.5 rounded text-sm uppercase tracking-widest font-extrabold hover:brightness-115 transition shadow-2xl shadow-jg-gold/20 flex items-center justify-center gap-3">
+                            Request Executive Consultation
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </button>
+                        <a href="#about" class="glass-panel text-white hover:bg-white/10 px-8 py-4.5 rounded text-sm uppercase tracking-widest font-extrabold transition flex items-center justify-center gap-2">
+                            Explore Capabilities
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Content: Floating Interactive Metrics Box -->
+                <div class="lg:col-span-5">
+                    <div class="glass-panel p-8 rounded-xl shadow-premium border border-white/10 relative overflow-hidden group hover:border-jg-gold/30 transition-all duration-500">
+                        <!-- Top subtle gold-leaf graphic -->
+                        <div class="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-jg-gold to-transparent"></div>
+                        
+                        <div class="flex items-center justify-between mb-8">
+                            <span class="text-xs uppercase tracking-widest text-jg-gold font-bold">Operational Synthesis</span>
+                            <div class="px-2.5 py-1 rounded bg-jg-gold/10 text-[10px] text-jg-gold font-bold uppercase tracking-wider">LIVE DATA</div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <!-- Metric 1 -->
+                            <div>
+                                <div class="flex justify-between text-xs uppercase tracking-widest mb-1.5 font-bold">
+                                    <span class="text-gray-400">Algorithmic Precision</span>
+                                    <span class="text-jg-gold">99.94%</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-2 rounded-full overflow-hidden">
+                                    <div class="bg-gradient-to-r from-jg-gold to-white h-full rounded-full transition-all duration-1000" style="width: 99.94%"></div>
+                                </div>
+                            </div>
+                            <!-- Metric 2 -->
+                            <div>
+                                <div class="flex justify-between text-xs uppercase tracking-widest mb-1.5 font-bold">
+                                    <span class="text-gray-400">Conversion Velocity</span>
+                                    <span class="text-jg-gold">3.4x Increase</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-2 rounded-full overflow-hidden">
+                                    <div class="bg-gradient-to-r from-jg-gold to-white h-full rounded-full transition-all duration-1000" style="width: 85%"></div>
+                                </div>
+                            </div>
+                            <!-- Metric 3 -->
+                            <div>
+                                <div class="flex justify-between text-xs uppercase tracking-widest mb-1.5 font-bold">
+                                    <span class="text-gray-400">Global Audience Reach</span>
+                                    <span class="text-jg-gold">140+ Nationalities</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-2 rounded-full overflow-hidden">
+                                    <div class="bg-gradient-to-r from-jg-gold to-white h-full rounded-full transition-all duration-1000" style="width: 92%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 pt-6 border-t border-white/5 flex justify-between items-center text-xs text-gray-400">
+                            <span>Engineered for CMOs & CEOs</span>
+                            <span class="text-white font-bold underline cursor-pointer hover:text-jg-gold transition open-modal-btn">Access API Spec</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Clear Client-Facing USP Banner -->
+    <section class="py-16 sm:py-20 bg-gradient-to-r from-jg-gold/90 to-jg-goldDark/90 backdrop-blur-sm relative z-20 border-y border-white/10 shadow-[0_0_40px_rgba(212,175,55,0.15)]">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 space-y-6">
+            <div class="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-jg-charcoal/10 text-jg-charcoal text-[10px] font-black uppercase tracking-widest border border-jg-charcoal/10">
+                The JG Advantage
+            </div>
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-jg-charcoal uppercase tracking-tight leading-tight">
+                Building systems and ideas designed to reach and connect <span class="text-white drop-shadow-md">massive audiences quickly</span>.
+            </h2>
+            <p class="text-sm sm:text-base font-bold uppercase tracking-[0.15em] text-jg-charcoal/80">
+                Connecting people through algorithmic precision and thoughtful design.
+            </p>
+        </div>
+    </section>
+
+    <!-- Executive Background Section -->
+    <!-- Changed bg to transparent with backdrop blur -->
+    <section id="about" class="py-28 bg-[#0F1013]/40 backdrop-blur-sm border-y border-white/5 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                
+                <!-- Left: Exact Portrait Image Render -->
+                <div class="relative">
+                    <div class="absolute inset-0 bg-gradient-to-br from-jg-gold/20 to-transparent rounded-2xl filter blur-xl transform translate-x-3 translate-y-3"></div>
+                    <div class="relative glass-panel p-3 rounded-2xl border border-white/10">
+                        <img src="dict.png.png" 
+                             alt="Jebhoy Gipala - Lead Digital Strategist" 
+                             class="w-full h-auto rounded-xl object-cover filter brightness-[1.02] contrast-[1.02] shadow-2xl"
+                             onerror="this.src='https://placehold.co/600x800/1a1a1a/D4AF37?text=Jebhoy+Gipala'">
+                        <!-- Absolute Label badge -->
+                        <div class="absolute bottom-8 left-8 right-8 glass-panel p-5 rounded border border-white/20 shadow-xl">
+                            <h3 class="text-white font-black text-sm uppercase tracking-widest">Jebhoy Gipala</h3>
+                            <p class="text-xs text-jg-gold uppercase tracking-widest mt-1">Founder & Lead Digital Strategist</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Profile Content -->
+                <div class="space-y-8">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-jg-gold/10 text-jg-gold text-[11px] font-bold uppercase tracking-widest">
+                        Executive Background
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-black text-white uppercase tracking-tight">
+                        Connecting People Through Algorithmic Precision
+                    </h2>
+                    <p class="text-gray-300 font-light leading-relaxed">
+                        I transform raw historical data into self-optimizing revenue engines. Unlike traditional or manual intervention, my tools create autonomous growth loops for your business. Combines data-obsession and user-centric polish.
+                    </p>
+                    <div class="grid sm:grid-cols-2 gap-6">
+                        <div class="glass-panel p-5 rounded border border-white/5">
+                            <h4 class="text-jg-gold font-bold text-xs uppercase tracking-widest mb-1">Tailored Marketing Integration</h4>
+                            <p class="text-xs text-gray-300 font-light">Custom marketing engines constructed to increase customer conversion directly through behavioral funnels.</p>
+                        </div>
+                        <div class="glass-panel p-5 rounded border border-white/5">
+                            <h4 class="text-jg-gold font-bold text-xs uppercase tracking-widest mb-1">High-Fidelity Aesthetics</h4>
+                            <p class="text-xs text-gray-300 font-light">Meticulous pixel alignment and premium typography styling configured to match enterprise authority.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Operational Portfolio Section -->
+    <!-- Changed bg to transparent with backdrop blur -->
+    <section id="portfolio" class="py-28 bg-[#0B0C0E]/40 backdrop-blur-sm border-y border-white/5 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-sm font-black uppercase tracking-[0.25em] text-jg-gold">Operational Portfolio</span>
+                <h2 class="text-3xl sm:text-4xl font-black text-white uppercase mt-3 tracking-tight">Strategic Experience & Leadership</h2>
+                <p class="text-gray-300 text-sm tracking-widest uppercase mt-2">A proven foundation in systems management, data analytics, and quality assurance.</p>
+            </div>
+
+            <div class="relative border-l border-white/10 ml-4 md:ml-0 md:border-l-0">
+                <!-- Vertical Line for Desktop -->
+                <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-white/10 transform -translate-x-1/2"></div>
+                
+                <div class="space-y-12">
+                    <!-- Experience 1: Trigene -->
+                    <div class="relative flex flex-col md:flex-row justify-between items-center w-full">
+                        <div class="hidden md:block w-5/12 text-right pr-8">
+                            <h3 class="text-lg font-black text-white uppercase tracking-widest">Trigene Construction & Architects</h3>
+                            <p class="text-jg-gold text-xs font-bold uppercase tracking-widest mt-1">Quality Assurance & Logistics</p>
+                            <p class="text-gray-400 text-[10px] uppercase tracking-widest mt-1">March 2023 – Dec 2024</p>
+                        </div>
+                        <div class="absolute left-[-5px] md:left-1/2 w-2.5 h-2.5 bg-jg-gold rounded-full transform md:-translate-x-1/2 mt-1.5 md:mt-0 shadow-[0_0_10px_rgba(212,175,55,0.5)] z-10"></div>
+                        <div class="w-full md:w-5/12 pl-8 md:pl-8">
+                            <div class="md:hidden mb-3">
+                                <h3 class="text-lg font-black text-white uppercase tracking-widest">Trigene Construction</h3>
+                                <p class="text-jg-gold text-xs font-bold uppercase tracking-widest mt-1">Quality Assurance & Logistics</p>
+                                <p class="text-gray-400 text-[10px] uppercase tracking-widest mt-1">2023 – 2024</p>
+                            </div>
+                            <div class="glass-panel p-6 rounded-lg border border-white/5 hover:border-jg-gold/30 transition-all duration-300 text-sm text-gray-200 font-light space-y-3">
+                                <p>• Maintained Detailed Progress Reports (DPR), documenting operations and critical visual evidence.</p>
+                                <p>• Verified materials met rigorous quality standards through testing prior to utilization.</p>
+                                <p>• Identified operational defects and actively recommended immediate corrective actions.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Experience 2: PGMC -->
+                    <div class="relative flex flex-col md:flex-row-reverse justify-between items-center w-full">
+                        <div class="hidden md:block w-5/12 text-left pl-8">
+                            <h3 class="text-lg font-black text-white uppercase tracking-widest">Platinum Group Metals (PGMC)</h3>
+                            <p class="text-jg-gold text-xs font-bold uppercase tracking-widest mt-1">Resource Analytics Lead</p>
+                            <p class="text-gray-400 text-[10px] uppercase tracking-widest mt-1">May 2021 – Oct 2021</p>
+                        </div>
+                        <div class="absolute left-[-5px] md:left-1/2 w-2.5 h-2.5 bg-jg-gold rounded-full transform md:-translate-x-1/2 mt-1.5 md:mt-0 shadow-[0_0_10px_rgba(212,175,55,0.5)] z-10"></div>
+                        <div class="w-full md:w-5/12 pl-8 md:pr-8 md:pl-0">
+                            <div class="md:hidden mb-3">
+                                <h3 class="text-lg font-black text-white uppercase tracking-widest">PGMC</h3>
+                                <p class="text-jg-gold text-xs font-bold uppercase tracking-widest mt-1">Resource Analytics Lead</p>
+                                <p class="text-gray-400 text-[10px] uppercase tracking-widest mt-1">2021</p>
+                            </div>
+                            <div class="glass-panel p-6 rounded-lg border border-white/5 hover:border-jg-gold/30 transition-all duration-300 text-sm text-gray-200 font-light space-y-3">
+                                <p>• Generated automated reporting metrics used for tax accounting, ESG reporting, and internal audits.</p>
+                                <p>• Leveraged data insights to optimize operational routes and schedule preventative systems maintenance.</p>
+                                <p>• Analyzed and corrected resource-wasting habits (e.g., excessive consumption metrics) to maximize efficiency.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Experience 3: Toms -->
+                    <div class="relative flex flex-col md:flex-row justify-between items-center w-full">
+                        <div class="hidden md:block w-5/12 text-right pr-8">
+                            <h3 class="text-lg font-black text-white uppercase tracking-widest">Toms Operations</h3>
+                            <p class="text-jg-gold text-xs font-bold uppercase tracking-widest mt-1">Operations Supervisor</p>
+                            <p class="text-gray-400 text-[10px] uppercase tracking-widest mt-1">July 2018 – Sep 2022</p>
+                        </div>
+                        <div class="absolute left-[-5px] md:left-1/2 w-2.5 h-2.5 bg-jg-gold rounded-full transform md:-translate-x-1/2 mt-1.5 md:mt-0 shadow-[0_0_10px_rgba(212,175,55,0.5)] z-10"></div>
+                        <div class="w-full md:w-5/12 pl-8 md:pl-8">
+                            <div class="md:hidden mb-3">
+                                <h3 class="text-lg font-black text-white uppercase tracking-widest">Toms Operations</h3>
+                                <p class="text-jg-gold text-xs font-bold uppercase tracking-widest mt-1">Operations Supervisor</p>
+                                <p class="text-gray-400 text-[10px] uppercase tracking-widest mt-1">2018 – 2022</p>
+                            </div>
+                            <div class="glass-panel p-6 rounded-lg border border-white/5 hover:border-jg-gold/30 transition-all duration-300 text-sm text-gray-200 font-light space-y-3">
+                                <p>• Hired, trained, and managed staff while ensuring strict adherence to company policies and legal procedures.</p>
+                                <p>• Collaborated with engineering/maintenance staff to resolve critical processing and operational issues.</p>
+                                <p>• Guaranteed a safe, high-performing environment for cross-functional team members and contractors.</p>
+                            </div>
+                        </div>
+                    </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Changed bg to transparent with backdrop blur -->
+    <section id="values" class="py-28 relative bg-[#0B0C0E]/40 backdrop-blur-sm border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-20">
+                <span class="text-sm font-black uppercase tracking-[0.25em] text-jg-gold">THE TRIAD MODEL</span>
+                <h2 class="text-4xl font-black text-white uppercase mt-3 tracking-tight">Our Branding Values Synthesis</h2>
+                <p class="text-gray-300 text-sm tracking-widest uppercase mt-2">Originated in the Brand Identity Architecture</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Value 1 -->
+                <div class="glass-panel p-8 rounded-lg border border-white/5 hover:border-jg-gold/30 transition-all duration-300 group flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-8">
+                            <span class="text-5xl font-black text-white/10 group-hover:text-jg-gold/30 transition duration-300">01</span>
+                            <!-- SVG Globe Icon representing Zuckerberg model -->
+                            <div class="w-12 h-12 rounded bg-jg-gold/20 flex items-center justify-center text-jg-gold">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                            </div>
+                        </div>
+                        <h3 class="text-lg font-black uppercase tracking-widest text-white mb-3">Scale & Global Reach</h3>
+                        <p class="text-xs uppercase text-jg-gold tracking-widest font-bold mb-4">(Zuckerberg Alignment)</p>
+                        <p class="text-sm text-gray-300 leading-relaxed font-light">We engineer technical systems and programmatic strategies built from the ground up to acquire and connect massive global audiences with lightning speed.</p>
+                    </div>
+                </div>
+
+                <!-- Value 2 -->
+                <div class="glass-panel p-8 rounded-lg border border-white/5 hover:border-jg-gold/30 transition-all duration-300 group flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-8">
+                            <span class="text-5xl font-black text-white/10 group-hover:text-jg-gold/30 transition duration-300">02</span>
+                            <!-- SVG AI Icon representing Zhang algorithm -->
+                            <div class="w-12 h-12 rounded bg-jg-gold/20 flex items-center justify-center text-jg-gold">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg>
+                            </div>
+                        </div>
+                        <h3 class="text-lg font-black uppercase tracking-widest text-white mb-3">Algorithmic Intelligence</h3>
+                        <p class="text-xs uppercase text-jg-gold tracking-widest font-bold mb-4">(Zhang Alignment)</p>
+                        <p class="text-sm text-gray-300 leading-relaxed font-light">Integrating intelligent content algorithms with frictionless UX pathways. We direct potential prospects intuitively to high-conversion endpoints.</p>
+                    </div>
+                </div>
+
+                <!-- Value 3 -->
+                <div class="glass-panel p-8 rounded-lg border border-white/5 hover:border-jg-gold/30 transition-all duration-300 group flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-8">
+                            <span class="text-5xl font-black text-white/10 group-hover:text-jg-gold/30 transition duration-300">03</span>
+                            <!-- SVG Pen/Eye Icon representing Systrom visual craft -->
+                            <div class="w-12 h-12 rounded bg-jg-gold/20 flex items-center justify-center text-jg-gold">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                            </div>
+                        </div>
+                        <h3 class="text-lg font-black uppercase tracking-widest text-white mb-3">Visual Craft & Esthetics</h3>
+                        <p class="text-xs uppercase text-jg-gold tracking-widest font-bold mb-4">(Systrom Alignment)</p>
+                        <p class="text-sm text-gray-300 leading-relaxed font-light">We execute with standard-defining luxury aesthetics. Geometric precision combined with premium palettes guarantees undeniable market leadership.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Changed bg to transparent with backdrop blur -->
+    <section id="blueprint" class="py-28 bg-[#090A0D]/40 backdrop-blur-sm border-t border-white/5 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="glass-panel p-10 lg:p-16 rounded-2xl border border-white/10 relative overflow-hidden">
+                <div class="absolute -right-16 -top-16 w-64 h-64 bg-jg-gold/20 rounded-full blur-3xl"></div>
+                
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    
+                    <div class="space-y-6">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-white/5 text-jg-gold text-[10px] font-bold uppercase tracking-widest border border-white/10">
+                            Core Brand Specification
+                        </div>
+                        <h2 class="text-3xl lg:text-4xl font-black text-white uppercase tracking-tight leading-none">
+                            The JG Design System
+                        </h2>
+                        <p class="text-gray-200 font-light leading-relaxed">
+                            This entire digital showcase is built strictly around the meticulous architecture outlined in the reference document. The primary base colors (Pure White and Silvergold), high-contrast layouts, and the psychology of pragmatic digital scale are imported directly from this standard.
+                        </p>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3 text-sm text-gray-200">
+                                <svg class="w-4 h-4 text-jg-gold" fill="currentColor" viewBox="0 0 20 20"><path d="M10 .25a.75.75 0 0 1 .75.75v14.06l3.53-3.53a.75.75 0 1 1 1.06 1.06l-4.81 4.81a.75.75 0 0 1-1.06 0L4.66 12.59a.75.75 0 1 1 1.06-1.06l3.53 3.53V1a.75.75 0 0 1 .75-.75z"/></svg>
+                                <span>Verbatim blueprint compliance with Brand Architecture</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-sm text-gray-200">
+                                <svg class="w-4 h-4 text-jg-gold" fill="currentColor" viewBox="0 0 20 20"><path d="M10 .25a.75.75 0 0 1 .75.75v14.06l3.53-3.53a.75.75 0 1 1 1.06 1.06l-4.81 4.81a.75.75 0 0 1-1.06 0L4.66 12.59a.75.75 0 1 1 1.06-1.06l3.53 3.53V1a.75.75 0 0 1 .75-.75z"/></svg>
+                                <span>Engineered to meet enterprise high-conversion UI metrics</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Side: Beautiful stylized representation of the TASK 2.pdf Kit structure -->
+                    <div class="glass-panel p-8 rounded-xl border border-white/10 space-y-6">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] text-gray-300 uppercase tracking-widest font-extrabold"> Blueprint Schema</span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                        </div>
+                        <div class="space-y-4">
+                            <!-- Visual Row 1 -->
+                            <div class="flex justify-between items-center text-xs border-b border-white/10 pb-2">
+                                <span class="text-gray-300">Primary Palette</span>
+                                <span class="text-white font-mono">Pure White, Silver Tone</span>
+                            </div>
+                            <!-- Visual Row 2 -->
+                            <div class="flex justify-between items-center text-xs border-b border-white/10 pb-2">
+                                <span class="text-gray-300">Accent Tone</span>
+                                <span class="text-jg-gold font-mono">Polished Luxury Gold</span>
+                            </div>
+                            <!-- Visual Row 3 -->
+                            <div class="flex justify-between items-center text-xs border-b border-white/10 pb-2">
+                                <span class="text-gray-300">Geometric Typography</span>
+                                <span class="text-white font-mono">Inter (Sans-Serif)</span>
+                            </div>
+                            <!-- Visual Row 4 -->
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="text-gray-300">Core Engine Focus</span>
+                                <span class="text-white font-mono">Pragmatic Audience Reach</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Changed background gradient to be slightly transparent -->
+    <section class="py-24 relative bg-gradient-to-t from-jg-charcoal/60 to-black/30 backdrop-blur-sm">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 space-y-8">
+            <span class="text-jg-gold text-xs font-black uppercase tracking-[0.3em]">CONNECT DIRECTLY</span>
+            <h2 class="text-3xl sm:text-5xl font-black text-white uppercase tracking-tight leading-none">
+                Are you ready to scale?
+            </h2>
+            <p class="text-gray-300 max-w-2xl mx-auto text-sm sm:text-base font-light">
+                Secure a private operational briefing with Jebhoy Gipala. We construct elite high-performance architectures crafted precisely for top-market results.
+            </p>
+            <div>
+                <button class="open-modal-btn bg-gradient-to-r from-jg-gold to-jg-goldDark text-jg-charcoal px-10 py-5 rounded text-xs uppercase tracking-widest font-black hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-jg-gold/20">
+                    Acquire Enterprise Access
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Transparent footer -->
+    <footer class="bg-[#0B0C0E]/60 backdrop-blur-sm border-t border-white/10 py-12 relative z-10 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-8 text-gray-400">
+            <!-- Left Branding -->
+            <div class="flex items-center gap-3">
+                 <span class="font-serif text-2xl font-bold tracking-tighter text-white">J<span class="text-jg-gold">G</span></span>
+                 <div class="border-l border-white/10 pl-3">
+                     <span class="text-[10px] font-black uppercase tracking-widest text-white">Jebhoy Gipala</span>
+                     <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-0.5">The Clean Vanguard System</p>
+                 </div>
+            </div>
+            
+            <!-- Right Socials & Links -->
+            <div class="flex flex-col items-center md:items-end gap-5">
+                <!-- Social Media Icons (Replace the href links with your actual URLs) -->
+                <div class="flex items-center gap-5">
+                    <!-- Facebook -->
+                    <a href="https://www.facebook.com/profile.php?id=61590479309159" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-jg-gold hover:-translate-y-1 transition-transform duration-300" aria-label="Facebook">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <!-- Instagram -->
+                    <a href="https://www.instagram.com/jbygipala1995/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-jg-gold hover:-translate-y-1 transition-transform duration-300" aria-label="Instagram">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <!-- LinkedIn -->
+                    <a href="https://www.linkedin.com/in/jebhoy-gipala-jg-001985251/?isSelfProfile=true" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-jg-gold hover:-translate-y-1 transition-transform duration-300" aria-label="LinkedIn">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <!-- TikTok -->
+                    <a href="https://https://www.tiktok.com/@jebhoy.gipala.jg" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-jg-gold hover:-translate-y-1 transition-transform duration-300" aria-label="TikTok">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.95v7.4c-.01 1.94-.69 3.84-1.94 5.25-1.49 1.68-3.69 2.59-5.92 2.39-2.25-.21-4.32-1.39-5.64-3.18-1.32-1.79-1.79-4.04-1.32-6.23.47-2.19 1.83-4.08 3.73-5.18 1.9-.11 3.8.31 5.4 1.34v4.36c-1.22-.52-2.61-.59-3.87-.2-1.26.39-2.31 1.3-2.82 2.51-.51 1.21-.45 2.62.16 3.78.61 1.16 1.72 1.95 3.01 2.14 1.29.19 2.63-.12 3.65-.85 1.02-.73 1.63-1.88 1.64-3.14V.02z" />
+                        </svg>
+                    </a>
+                </div>
+                
+                <!-- Text Links -->
+                <div class="flex gap-6 uppercase tracking-widest text-[10px] font-bold">
+                    <a href="#" class="hover:text-white transition">Executive Brief</a>
+                    <a href="#" class="hover:text-white transition">Data Privacy</a>
+                </div>
+                
+                <p class="text-center md:text-right">&copy; 2026 JG International designed according to specifications in "MAIN".</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="leadModal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-sm">
+        <!-- Backdrop -->
+        <div class="absolute inset-0" id="modalBackdrop"></div>
+        
+        <!-- Modal Content Container -->
+        <div class="modal-content relative w-full max-w-xl glass-panel rounded-lg shadow-premium overflow-hidden z-10 flex flex-col max-h-[92vh] border border-white/10">
+            
+            <!-- Modal Accent Top Line -->
+            <div class="h-1.5 bg-gradient-to-r from-jg-gold via-white to-jg-gold"></div>
+
+            <!-- Modal Header -->
+            <div class="px-8 py-6 flex justify-between items-center border-b border-white/5 bg-[#121316]">
+                <div>
+                    <h2 class="text-lg font-black text-white uppercase tracking-widest">Enterprise Request</h2>
+                    <p class="text-jg-gold text-[10px] uppercase tracking-widest mt-1 font-bold">Initiate VIP Connection Sequence</p>
+                </div>
+                <button id="closeModalBtn" class="text-gray-400 hover:text-white transition rounded-full p-2 bg-white/5 hover:bg-white/10">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <!-- Form Body with scroll overlay -->
+            <div class="p-8 overflow-y-auto bg-jg-charcoal/90">
+                <form id="consultationForm" class="space-y-5">
+                    
+                    <!-- First Name -->
+                    <div>
+                        <label for="firstName" class="block text-[10px] font-black uppercase tracking-widest text-jg-gold mb-1.5">First Name</label>
+                        <input type="text" id="firstName" name="firstName" required placeholder="John" class="form-input text-sm">
+                    </div>
+
+                    <!-- Designation (Job Title) -->
+                    <div>
+                        <label for="designation" class="block text-[10px] font-black uppercase tracking-widest text-jg-gold mb-1.5">Designation / Role</label>
+                        <input type="text" id="designation" name="designation" required placeholder="CEO, Director of Strategy, CMO" class="form-input text-sm">
+                    </div>
+
+                    <!-- Nationality -->
+                    <div>
+                        <label for="nationality" class="block text-[10px] font-black uppercase tracking-widest text-jg-gold mb-1.5">Nationality</label>
+                        <select id="nationality" name="nationality" required class="form-input text-sm text-gray-300">
+                            <option value="" disabled selected>Select nationality / headquarters...</option>
+                            <option value="US">United States</option>
+                            <option value="UK">United Kingdom</option>
+                            <option value="SG">Singapore</option>
+                            <option value="PH">Philippines</option>
+                            <option value="AU">Australia</option>
+                            <option value="CA">Canada</option>
+                            <option value="AE">United Arab Emirates</option>
+                            <option value="DE">Germany</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <!-- Contact Details Double Columns -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <!-- Email -->
+                        <div>
+                            <label for="email" class="block text-[10px] font-black uppercase tracking-widest text-jg-gold mb-1.5">Corporate Email</label>
+                            <input type="email" id="email" name="email" required placeholder="name@enterprise.com" class="form-input text-sm">
+                        </div>
+
+                        <!-- Mobile -->
+                        <div>
+                            <label for="mobile" class="block text-[10px] font-black uppercase tracking-widest text-jg-gold mb-1.5">Mobile Number</label>
+                            <input type="tel" id="mobile" name="mobile" required placeholder="+1 (555) 000-0000" class="form-input text-sm">
+                        </div>
+                    </div>
+
+                    <!-- Submit Action Button -->
+                    <div class="pt-4">
+                        <button type="submit" class="w-full bg-gradient-to-r from-jg-gold to-jg-goldDark text-jg-charcoal font-black py-4 px-4 rounded text-xs uppercase tracking-widest hover:brightness-110 active:scale-[0.98] transition shadow-lg shadow-jg-gold/15 flex justify-center items-center gap-2">
+                            <span>Initialize Technical Audit</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                        </button>
+                        <p class="text-center text-[9px] uppercase tracking-widest text-gray-500 mt-4 flex items-center justify-center gap-1.5">
+                            <svg class="w-3.5 h-3.5 text-jg-gold" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+                            Encrypted connection compliant with "TASK 2.pdf" visual protocols
+                        </p>
+                    </div>
+                </form>
+
+                <!-- Success State Overlay (Hidden by default) -->
+                <div id="successState" class="hidden flex-col items-center justify-center py-16 text-center">
+                    <div class="w-16 h-16 border border-jg-gold text-jg-gold rounded-full flex items-center justify-center mb-6 bg-jg-gold/10">
+                        <svg class="w-8 h-8 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-black text-white uppercase tracking-widest mb-3">Transmission Secured</h3>
+                    <p class="text-gray-400 text-xs font-light leading-relaxed max-w-xs">
+                        Your enterprise profile has been synchronized. A senior advisor will evaluate your digital metrics and schedule a call.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('leadModal');
+            const openBtns = document.querySelectorAll('.open-modal-btn');
+            const closeBtn = document.getElementById('closeModalBtn');
+            const backdrop = document.getElementById('modalBackdrop');
+            const form = document.getElementById('consultationForm');
+            const successState = document.getElementById('successState');
+
+            // Open modal logic
+            const openModal = () => {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden'; 
+                
+                form.reset();
+                form.style.display = 'block';
+                successState.classList.add('hidden');
+                successState.classList.remove('flex');
+            };
+
+            // Close modal logic
+            const closeModal = () => {
+                modal.classList.remove('active');
+                document.body.style.overflow = ''; 
+            };
+
+            // Setup listeners
+            openBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openModal();
+                });
+            });
+
+            closeBtn.addEventListener('click', closeModal);
+            backdrop.addEventListener('click', closeModal);
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    closeModal();
+                }
+            });
+
+            // Form Submit Interceptor
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const formData = new FormData(form);
+                const leadData = {
+                    firstName: formData.get('firstName'),
+                    designation: formData.get('designation'),
+                    nationality: formData.get('nationality'),
+                    email: formData.get('email'),
+                    mobile: formData.get('mobile')
+                };
+
+                console.log('Secure Transmission Completed via "TASK 2.pdf" Blueprint specs:', leadData);
+
+                // Show visual confirmation animation
+                form.style.display = 'none';
+                successState.classList.remove('hidden');
+                successState.classList.add('flex');
+
+                // Gracefully dismiss modal
+                setTimeout(() => {
+                    closeModal();
+                }, 3800);
+            });
+        });
+    </script>
+</body>
+</html>
